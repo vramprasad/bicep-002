@@ -34,7 +34,7 @@ stages:
   - stage: Validations
     displayName: 'Perform Validation'
     condition: eq(variables['lintBicep'], 'Yes')
-     jobs:
+      jobs:
       - job: ValidateBicep
         displayName: 'Validate Bicep file'
         steps:
