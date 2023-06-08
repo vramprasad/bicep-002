@@ -6,7 +6,7 @@ pool:
    - agent.name -equals RPLocalWin
 
 parameters:
-- name: lintBicep
+  - name: lintBicep
     displayName: "Lint Bicepfile ?"
     type: string
     default: Yes
