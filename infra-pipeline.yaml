@@ -41,9 +41,9 @@ stages:
         - checkout: self
           path: ./s
         - task: AzureCLI@2
-         name: LintingBicep
-         displayName: 'Linting Bicep'
-         inputs:
+          name: LintingBicep
+          displayName: 'Linting Bicep'
+          inputs:
            azureSubscription: 'rp0041-rg'
            scriptType: 'bash'
            scriptLocation: 'inlineScript'
