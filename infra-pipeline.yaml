@@ -1,0 +1,51 @@
+trigger: none
+
+pool:
+  name: RPLocalPool
+  demands:
+   - agent.name -equals RPLocalWin
+
+parameters:
+- name: lintBicep
+    displayName: "Lint Bicepfile ?"
+    type: string
+    default: Yes
+    values:
+      - Yes
+      - No
+
+  - name: createAI
+    displayName: "Create AppInsights"
+    type: string
+    default: No
+    values:
+      - Yes
+      - No
+
+  - name: createSA
+    displayName: "Create Sorage Account"
+    type: string
+    default: No
+    values:
+      - Yes
+      - No
+
+stages:
+  - stage: CreateAppInsights
+    displayName: 'Create Application Insights'
+    condition: eq(variables['lintBicep'], 'Yes')
+     jobs:
+     - job: ValidateBicep
+       displayName: 'Validate Bicep file'
+       steps:
+       - checkout: self
+         path: ./s
+       - task: AzureCLI@2
+         name: LintingBicep
+         displayName: 'Linting Bicep'
+         inputs:
+           azureSubscription: 'rp0041-rg'
+           scriptType: 'bash'
+           scriptLocation: 'inlineScript'
+           inlineScript: |
+             az version
