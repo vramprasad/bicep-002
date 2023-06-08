@@ -31,16 +31,16 @@ parameters:
       - No
 
 stages:
-  - stage: CreateAppInsights
-    displayName: 'Create Application Insights'
+  - stage: Validations
+    displayName: 'Perform Validation'
     condition: eq(variables['lintBicep'], 'Yes')
      jobs:
-     - job: ValidateBicep
-       displayName: 'Validate Bicep file'
-       steps:
-       - checkout: self
-         path: ./s
-       - task: AzureCLI@2
+      - job: ValidateBicep
+        displayName: 'Validate Bicep file'
+        steps:
+        - checkout: self
+          path: ./s
+        - task: AzureCLI@2
          name: LintingBicep
          displayName: 'Linting Bicep'
          inputs:
