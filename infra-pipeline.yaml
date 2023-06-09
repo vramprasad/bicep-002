@@ -32,9 +32,9 @@ parameters:
 
 stages:
   - stage: Validations
-    displayName: 'Perform Validation'
-    condition: eq(variables['lintBicep'], 'Yes')
-      jobs:
+    condition: eq('${{ parameters.lintBicep }}', 'Yes')
+    displayName: 'Perform Validation'    
+    jobs:
       - job: ValidateBicep
         displayName: 'Validate Bicep file'
         steps:
