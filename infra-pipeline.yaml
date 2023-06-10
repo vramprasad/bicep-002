@@ -45,7 +45,8 @@ stages:
           displayName: 'Linting Bicep'
           inputs:
            azureSubscription: 'rp0041-rg'
-           scriptType: 'bash'
+           scriptType: 'ps'
            scriptLocation: 'inlineScript'
            inlineScript: |
              az version
+
