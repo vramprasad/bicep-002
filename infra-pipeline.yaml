@@ -6,13 +6,13 @@ pool:
    - agent.name -equals RPLocalWin
 
 parameters:
-  - name: lintBicep
-    displayName: "Lint Bicepfile ?"
+  - name: environment
+    displayName: "Target Environment"
     type: string
-    default: Yes
+    default: dev
     values:
-      - Yes
-      - No
+      - dev
+      - test
 
   - name: createAI
     displayName: "Create AppInsights"
@@ -31,22 +31,15 @@ parameters:
       - No
 
 stages:
-  - stage: Validations
-    condition: eq('${{ parameters.lintBicep }}', 'Yes')
-    displayName: 'Perform Validation'    
+  - stage: createAIStage
+    condition: eq('${{ parameters.createAI }}', 'Yes')
+    displayName: 'Create AI'    
     jobs:
-      - job: ValidateBicep
-        displayName: 'Validate Bicep file'
-        steps:
-        - checkout: self
-          path: ./s
-        - task: AzureCLI@2
-          name: LintingBicep
-          displayName: 'Linting Bicep'
-          inputs:
-           azureSubscription: 'rp0041-rg'
-           scriptType: 'ps'
-           scriptLocation: 'inlineScript'
-           inlineScript: |
-             az version
-
+    - template: linting.yaml
+    - template: dryrun.yaml
+  - stage: createAIStage
+    condition: eq('${{ parameters.createSA }}', 'Yes')
+    displayName: 'Create Storage Account'    
+    jobs:
+    - template: linting.yaml
+    - template: dryrun.yaml

@@ -1,1 +1,30 @@
-# bicep-002
+az version
+bicep —version
+
+az bicep build --file main.bicep
+
+az deployment group validate —resource-group rp0041-rg —template-file main.bicep
+
+az deployment group what-if —resource-group rp0041-rg —template-file main.bicep
+
+az deployment group what-if —resource-group rp0041-rg —template-file main.bicep --parameters .\parameters\dev.parameters.json
+
+az account set —subscription <subscription_id>
+
+az deployment group what-if --resource-group rp0041-rg --template-file main.bicep --parameters .\parameters\dev.parameters.json
+
+az deployment group what-if --resource-group rp0041-rg --template-file .\templates\main.bicep --parameters .\parameters\dev.parameters.json
+
+
+az deployment group what-if --resource-group rp0041-rg --template-file .\modules\storageaccount\deploy.bicep --parameters .\parameters\dev.parameters.json    
+
+az deployment group what-if --resource-group rp0041-rg --template-file .\modules\appservice\deploy.bicep --parameters .\parameters\dev.parameters.json  
+
+az deployment group what-if \
+  --name TestingDeployment \
+  --resource-group rp0041-rg \
+  --template-file main.bicep \
+  --parameters .\parameters\dev.parameters.json
+
+az bicep decompile --file main.json
+ 

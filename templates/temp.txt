@@ -1,0 +1,4 @@
+az deployment group validate \
+      --resource-group rp0041-rg \
+      --template-file main.bicep \
+      --parameters .\parameters\dev.parameters.json resourceToCreate=

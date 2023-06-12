@@ -1,0 +1,14 @@
+- job: ValidateBicep
+  displayName: 'Validate Bicep file'
+  steps:
+  - checkout: self
+    path: ./s
+  - task: AzureCLI@2
+    name: LintingBicep
+    displayName: 'Linting Bicep'
+    inputs:
+      azureSubscription: 'rp0041-rg'
+      scriptType: 'ps'
+      scriptLocation: 'inlineScript'
+      inlineScript: |      
+        echo "Inside linting.yaml"
