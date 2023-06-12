@@ -1,4 +1,4 @@
-- job: ValidateBicep
+  job: ValidateBicep
   displayName: 'Validate Bicep file'
   steps:
   - checkout: self
