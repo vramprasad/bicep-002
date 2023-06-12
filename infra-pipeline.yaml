@@ -35,11 +35,11 @@ stages:
     condition: eq('${{ parameters.createAI }}', 'Yes')
     displayName: 'Create AI'    
     jobs:
-    - template: linting.yaml
-    - template: dryrun.yaml
+    - template: templates/linting.yaml
+    - template: templates/dryrun.yaml
   - stage: createAIStage
     condition: eq('${{ parameters.createSA }}', 'Yes')
     displayName: 'Create Storage Account'    
     jobs:
-    - template: linting.yaml
-    - template: dryrun.yaml
+    - template: templates/linting.yaml
+    - template: templates/dryrun.yaml
