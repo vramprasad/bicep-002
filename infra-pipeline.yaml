@@ -44,6 +44,16 @@ stages:
             inlineScript: | 
               az bicep build --file templates/main.bicep
 
+  - stage: createAIStage
+    dependsOn: InfraValidationStage
+    condition: and(succeeded(), eq('${{ parameters.createAI }}', true))
+    displayName: 'Create AI'    
+    variables:
+      - template: parameters/${{ parameters.targetEnvironment }}.variables.yaml
+    jobs:
+      - job: createAIJob
+        displayName: 'Create Application Insights'
+        steps:
         - task: AzureCLI@2
           name: ValidatingBicep
           displayName: 'Validate Bicep'
@@ -55,18 +65,7 @@ stages:
               az deployment group validate \
                 --resource-group $(resourceGroupName) \
                 --template-file templates/main.bicep \
-                --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json
-
-  - stage: createAIStage
-    dependsOn: InfraValidationStage
-    condition: and(succeeded(), eq('${{ parameters.createAI }}', true))
-    displayName: 'Create AI'    
-    variables:
-      - template: parameters/${{ parameters.targetEnvironment }}.variables.yaml
-    jobs:
-      - job: createAIJob
-        displayName: 'Create Application Insights'
-        steps:
+                --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json resourcetoCreate="AI"
         - task: AzureCLI@2
           name: DryRun
           displayName: 'Dry Run'
