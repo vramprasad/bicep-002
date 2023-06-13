@@ -16,32 +16,28 @@ parameters:
 
   - name: createAI
     displayName: "Create AppInsights"
-    type: string
-    default: No
-    values:
-      - Yes
-      - No
+    type: boolean
+    default: false
 
   - name: createSA
     displayName: "Create Sorage Account"
-    type: string
-    default: No
-    values:
-      - Yes
-      - No
+    type: boolean
+    default: false
 
 stages:
   - stage: createAIStage
-    condition: eq('${{ parameters.createAI }}', 'Yes')
+    condition: eq('${{ parameters.createAI }}', true)
     displayName: 'Create AI'    
     jobs:
     - job:
+    steps:
     - template: templates/linting.yaml
     - template: templates/dryrun.yaml
   - stage: createAIStage
-    condition: eq('${{ parameters.createSA }}', 'Yes')
+    condition: eq('${{ parameters.createSA }}', true)
     displayName: 'Create Storage Account'    
     jobs:
     - job:
+    steps:
     - template: templates/linting.yaml
     - template: templates/dryrun.yaml

@@ -1,8 +1,4 @@
-  job:
-  displayName: 'Dry Run'
   steps:
-  - checkout: self
-    path: ./s
   - task: AzureCLI@2
     name: DryRunBicep
     displayName: 'Dry Run'
