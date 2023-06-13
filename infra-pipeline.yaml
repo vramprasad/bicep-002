@@ -32,7 +32,7 @@ stages:
     - job:
     - template: templates/linting.yaml
     - template: templates/dryrun.yaml
-  - stage: createAIStage
+  - stage: createSAStage
     condition: eq('${{ parameters.createSA }}', true)
     displayName: 'Create Storage Account'    
     jobs:

@@ -1,4 +1,3 @@
-  steps:
   - task: AzureCLI@2
     name: DryRunBicep
     displayName: 'Dry Run'

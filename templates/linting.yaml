@@ -1,4 +1,3 @@
-  steps:
   - checkout: self
     path: ./s
   - task: AzureCLI@2
