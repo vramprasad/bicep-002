@@ -20,7 +20,7 @@ parameters:
     default: false
 
   - name: createSA
-    displayName: "Create Sorage Account"
+    displayName: "Create Storage Account"
     type: boolean
     default: false
 
@@ -40,7 +40,7 @@ stages:
           displayName: 'Linting Bicep'
           inputs:
             azureSubscription: ${{ variables.serviceConnection }}  
-            scriptType: 'bash'
+            scriptType: 'ps'
             scriptLocation: 'inlineScript'
             inlineScript: | 
               az bicep build --file templates/main.bicep
@@ -50,7 +50,7 @@ stages:
           displayName: 'Validate Bicep'
           inputs:
             azureSubscription: ${{ variables.serviceConnection }}  
-            scriptType: 'bash'
+            scriptType: 'ps'
             scriptLocation: 'inlineScript'
             inlineScript: | 
               az deployment group validate \
@@ -65,14 +65,14 @@ stages:
       - template: /parameters/${{ parameters.targetEnvironment }}.variables.yaml
     jobs:
       - job: createAIJob
-        displayName: 'Create Application Insights"'
+        displayName: 'Create Application Insights'
         steps:
         - task: AzureCLI@2
           name: DryRun
           displayName: 'Dry Run'
           inputs:
             azureSubscription: ${{ variables.serviceConnection }}  
-            scriptType: 'bash'
+            scriptType: 'ps'
             scriptLocation: 'inlineScript'
             inlineScript: | 
               az deployment group what-if \
@@ -85,7 +85,7 @@ stages:
           displayName: 'Create Infra'
           inputs:
             azureSubscription: ${{ variables.serviceConnection }}  
-            scriptType: 'bash'
+            scriptType: 'ps'
             scriptLocation: 'inlineScript'
             inlineScript: | 
               az deployment group create \
