@@ -55,14 +55,14 @@ stages:
               az deployment group validate \
                 --resource-group $(resourceGroupName) \
                 --template-file templates/main.bicep \
-                --parameters /parameters/${{ parameters.targetEnvironment }}.parameters.json
+                --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json
 
   - stage: createAIStage
     condition: eq('${{ parameters.createAI }}', true)
     dependsOn: InfraValidationStage
     displayName: 'Create AI'    
     variables:
-      - template: /parameters/${{ parameters.targetEnvironment }}.variables.yaml
+      - template: parameters/${{ parameters.targetEnvironment }}.variables.yaml
     jobs:
       - job: createAIJob
         displayName: 'Create Application Insights'
@@ -78,7 +78,7 @@ stages:
               az deployment group what-if \
                 --resource-group $(resourceGroupName) \
                 --template-file templates/main.bicep \
-                --parameters /parameters/${{ parameters.targetEnvironment }}.parameters.json
+                --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json
         - task: AzureCLI@2
           enabled: false
           name: CreateInfra
@@ -91,4 +91,4 @@ stages:
               az deployment group create \
                 --resource-group $(resourceGroupName) \
                 --template-file templates/main.bicep \
-                --parameters /parameters/${{ parameters.targetEnvironment }}.parameters.json
+                --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json
