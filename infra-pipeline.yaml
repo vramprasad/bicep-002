@@ -58,8 +58,8 @@ stages:
                 --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json
 
   - stage: createAIStage
-    condition: eq('${{ parameters.createAI }}', true)
     dependsOn: InfraValidationStage
+    condition: and(succeeded(), eq('${{ parameters.createAI }}', true))
     displayName: 'Create AI'    
     variables:
       - template: parameters/${{ parameters.targetEnvironment }}.variables.yaml
