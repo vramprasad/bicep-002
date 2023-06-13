@@ -1,3 +1,4 @@
+  job:
   displayName: 'Dry Run'
   steps:
   - checkout: self
