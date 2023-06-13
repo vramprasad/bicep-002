@@ -30,7 +30,6 @@ stages:
     displayName: 'Create AI'    
     jobs:
     - job:
-    steps:
     - template: templates/linting.yaml
     - template: templates/dryrun.yaml
   - stage: createAIStage
@@ -38,6 +37,5 @@ stages:
     displayName: 'Create Storage Account'    
     jobs:
     - job:
-    steps:
     - template: templates/linting.yaml
     - template: templates/dryrun.yaml
