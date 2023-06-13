@@ -42,7 +42,7 @@ stages:
             scriptType: 'bash'
             scriptLocation: 'inlineScript'
             inlineScript: | 
-              az bicep build --file .\templates\main.bicep
+              az bicep build --file templates/main.bicep
 
         - task: AzureCLI@2
           name: ValidatingBicep
@@ -59,6 +59,7 @@ stages:
 
   - stage: createAIStage
     condition: eq('${{ parameters.createAI }}', true)
+    dependsOn: InfraValidationStage
     displayName: 'Create AI'    
     variables:
       - template: /parameters/${{ parameters.targetEnvironment }}.variables.yaml
