@@ -54,43 +54,7 @@ stages:
       - job: createAIJob
         displayName: 'Create Application Insights'
         steps:
-        - task: AzureCLI@2
-          name: ValidatingBicep
-          displayName: 'Validate Bicep'
-          inputs:
-            azureSubscription: ${{ variables.serviceConnection }}  
-            scriptType: 'bash'
-            scriptLocation: 'inlineScript'
-            inlineScript: | 
-              az deployment group validate \
-                --resource-group $(resourceGroupName) \
-                --template-file templates/main.bicep \
-                --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json resourcetoCreate="AI"
-        - task: AzureCLI@2
-          name: DryRun
-          displayName: 'Dry Run'
-          inputs:
-            azureSubscription: ${{ variables.serviceConnection }}  
-            scriptType: 'bash'
-            scriptLocation: 'inlineScript'
-            inlineScript: | 
-              az deployment group what-if \
-                --resource-group $(resourceGroupName) \
-                --template-file templates/main.bicep \
-                --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json resourcetoCreate="AI"
-        - task: AzureCLI@2
-          enabled: false
-          name: CreateInfra
-          displayName: 'Create Infra'
-          inputs:
-            azureSubscription: ${{ variables.serviceConnection }}  
-            scriptType: 'bash'
-            scriptLocation: 'inlineScript'
-            inlineScript: | 
-              az deployment group create \
-                --resource-group $(resourceGroupName) \
-                --template-file templates/main.bicep \
-                --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json resourcetoCreate="AI"
+          - template: ./templates/actions.yaml
 
   - stage: createSAStage
     dependsOn: InfraValidationStage
