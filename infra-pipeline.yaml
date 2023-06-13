@@ -91,3 +91,51 @@ stages:
                 --resource-group $(resourceGroupName) \
                 --template-file templates/main.bicep \
                 --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json resourcetoCreate="AI"
+
+  - stage: createSAStage
+    dependsOn: InfraValidationStage
+    condition: and(succeeded(), eq('${{ parameters.createSA }}', true))
+    displayName: 'Create SA'    
+    variables:
+      - template: parameters/${{ parameters.targetEnvironment }}.variables.yaml
+    jobs:
+      - job: createSAJob
+        displayName: 'Create SA Job'
+        steps:
+        - task: AzureCLI@2
+          name: ValidatingBicep
+          displayName: 'Validate Bicep'
+          inputs:
+            azureSubscription: ${{ variables.serviceConnection }}  
+            scriptType: 'bash'
+            scriptLocation: 'inlineScript'
+            inlineScript: | 
+              az deployment group validate \
+                --resource-group $(resourceGroupName) \
+                --template-file templates/main.bicep \
+                --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json resourcetoCreate="AI"
+        - task: AzureCLI@2
+          name: DryRun
+          displayName: 'Dry Run'
+          inputs:
+            azureSubscription: ${{ variables.serviceConnection }}  
+            scriptType: 'bash'
+            scriptLocation: 'inlineScript'
+            inlineScript: | 
+              az deployment group what-if \
+                --resource-group $(resourceGroupName) \
+                --template-file templates/main.bicep \
+                --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json resourcetoCreate="AI"
+        - task: AzureCLI@2
+          enabled: false
+          name: CreateInfra
+          displayName: 'Create Infra'
+          inputs:
+            azureSubscription: ${{ variables.serviceConnection }}  
+            scriptType: 'bash'
+            scriptLocation: 'inlineScript'
+            inlineScript: | 
+              az deployment group create \
+                --resource-group $(resourceGroupName) \
+                --template-file templates/main.bicep \
+                --parameters parameters/${{ parameters.targetEnvironment }}.parameters.json resourcetoCreate="AI"
