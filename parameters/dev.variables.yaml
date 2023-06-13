@@ -1,0 +1,3 @@
+variables:
+  resourceGroupName: 'rp0041-rg'
+  serviceConnection: 'rp0041-rg'
