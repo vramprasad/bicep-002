@@ -11,7 +11,9 @@ param pASPKind string
 param pAppService string
 param pLinuxFXVersion string
 
-module AppInsightsDoc01 '../modules/appInsights.bicep' = {
+param resourcetoCreate string
+
+module AppInsightsDoc01 '../modules/appInsights.bicep' = if (resourcetoCreate == 'AI') {
   name: pAppInsightsName
   params: {
     pAppInsightsName: pAppInsightsName
@@ -19,7 +21,7 @@ module AppInsightsDoc01 '../modules/appInsights.bicep' = {
   }
 }
 
-module StorageAccountDoc01 '../modules/storageaccount.bicep' = {
+module StorageAccountDoc01 '../modules/storageaccount.bicep' = if (resourcetoCreate == 'SA') {
   name: pstgaccName
   params: {
     pstgaccName: pstgaccName
