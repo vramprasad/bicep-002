@@ -2,8 +2,7 @@ trigger: none
 
 pool:
   name: RPLocalPool
-  demands:
-   - agent.name -equals RPLocalWin
+
 
 parameters:
   - name: targetEnvironment
