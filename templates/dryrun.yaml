@@ -1,4 +1,3 @@
-  job: DryRun
   displayName: 'Dry Run'
   steps:
   - checkout: self
